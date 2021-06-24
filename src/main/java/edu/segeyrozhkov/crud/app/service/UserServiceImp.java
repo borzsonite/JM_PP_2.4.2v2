@@ -11,11 +11,11 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService{
 
+    private UserDao userDao;
+
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-
-    private UserDao userDao;
 
     @Override
     @Transactional

@@ -1,6 +1,10 @@
 package edu.segeyrozhkov.crud.app.config;
 
+import edu.segeyrozhkov.crud.app.dao.UserDao;
+import edu.segeyrozhkov.crud.app.dao.UserDaoImp;
 import edu.segeyrozhkov.crud.app.model.User;
+import edu.segeyrozhkov.crud.app.service.UserService;
+import edu.segeyrozhkov.crud.app.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +24,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Properties;
 
 @Configuration
@@ -79,7 +84,7 @@ public class SpringConfig implements WebMvcConfigurer {
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
         factoryBean.setDataSource(getDataSource());
 
-        Properties props=new Properties();
+        Properties props = new Properties();
         props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
@@ -93,5 +98,17 @@ public class SpringConfig implements WebMvcConfigurer {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(getSessionFactory().getObject());
         return transactionManager;
+    }
+
+    public UserDao getUserDao() {
+        UserDaoImp userDao = new UserDaoImp();
+           userDao.setSessionFactory(getSessionFactory().getObject());
+           return userDao;
+    }
+
+    @Bean
+    public UserService getUserService() {
+        UserService userService = new UserServiceImp();
+        return userService;
     }
 }
