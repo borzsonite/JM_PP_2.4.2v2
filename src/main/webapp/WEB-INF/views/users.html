@@ -7,9 +7,38 @@
 </head>
 <body>
 <div>
-    <th:block th:each="user : ${usersList}">
-        <h1 th:text="${user}"></h1>
+    <th:block th:each="user : ${userList}">
+        <span th:text="${user.getId()}"></span>
+        <span th:text="${user.getName()}"></span>
+        <span th:text="${user.getDepartment()}"></span>
+        <span th:text="${user.getSalary()}"></span>
     </th:block>
+</div>
+
+<div>
+
+    <th:if test="${!empty userList}">
+        <table class="tg">
+            <tr>
+                <th width="80">ID</th>
+                <th width="120">Title</th>
+                <th width="120">Author</th>
+                <th width="120">Price</th>
+                <th width="60">Edit</th>
+                <th width="60">Delete</th>
+            </tr>
+            <th:forEach items="${userList}" var="user">
+                <tr>
+                    <td>${user}</td>
+                    <td><a href="/userdata/${user.id}" target="_blank">${book.bookTitle}</a></td>
+                    <td>${book.bookAuthor}</td>
+                    <td>${book.price/100}${book.price%100}</td>
+                    <td><a href="<c:url value='/edit/${user.id}'/>">Edit</a></td>
+                    <td><a href="<c:url value='/remove/${user.id}'/>">Delete</a></td>
+                </tr>
+            </th:forEach>
+        </table>
+    </th:if>
 </div>
 </body>
 </html>

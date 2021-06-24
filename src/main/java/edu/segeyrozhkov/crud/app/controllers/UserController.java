@@ -1,11 +1,14 @@
 package edu.segeyrozhkov.crud.app.controllers;
 
+import edu.segeyrozhkov.crud.app.model.User;
 import edu.segeyrozhkov.crud.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
@@ -24,8 +27,18 @@ public class UserController {
 
     @GetMapping("/users")
     public String getAllUsers(Model model) {
-        model.addAttribute("usersList", userService.userList());
-        System.out.println(userService.userList());
+        model.addAttribute("user", new User());
+        model.addAttribute("userList", userService.userList());
         return "users";
+    }
+
+    @PostMapping("/user/add")
+    public String addUser(@ModelAttribute("user") User user) {
+        if(user.getId() == 0) {
+            userService.addUser(user);
+        } else {
+            userService.updateUser(user);
+        }
+        return "redirect:/users";
     }
 }
