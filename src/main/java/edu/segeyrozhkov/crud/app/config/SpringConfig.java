@@ -24,7 +24,6 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
-import java.util.List;
 import java.util.Properties;
 
 @Configuration
@@ -100,15 +99,17 @@ public class SpringConfig implements WebMvcConfigurer {
         return transactionManager;
     }
 
+    @Bean(name = "userDao")
     public UserDao getUserDao() {
         UserDaoImp userDao = new UserDaoImp();
-           userDao.setSessionFactory(getSessionFactory().getObject());
-           return userDao;
+        userDao.setSessionFactory(getSessionFactory().getObject());
+        return userDao;
     }
 
-    @Bean
+    @Bean(name = "userService")
     public UserService getUserService() {
-        UserService userService = new UserServiceImp();
+        UserServiceImp userService = new UserServiceImp();
+        userService.setUserDao(getUserDao());
         return userService;
     }
 }
