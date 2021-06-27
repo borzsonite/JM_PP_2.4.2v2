@@ -4,41 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <style type="text/css">
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border-color: #ccc;
+        }
+
+        .tg td {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+            border-color: #ccc;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .tg th {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+            border-color: #ccc;
+            color: #333;
+            background-color: #f0f0f0;
+        }
+
+        .tg .tg-4eph {
+            background-color: #f9f9f9
+        }
+        .wrapper {
+            background-color: whitesmoke;
+            list-style-type: none;
+            padding: 10px;
+            border-radius: 3px;
+            float: left;
+        }
+        label {margin-right:0.5em;
+            width:5em;
+            float:left;
+            text-align:left;
+            display:block;
+        }
+        input[type="text"] {
+            width:15em;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <th:block th:each="user : ${userList}">
-        <span th:text="${user.getId()}"></span>
-        <span th:text="${user.getName()}"></span>
-        <span th:text="${user.getDepartment()}"></span>
-        <span th:text="${user.getSalary()}"></span>
-    </th:block>
-</div>
 
-<div>
+<table class="tg" th:if="not ${userList.isEmpty()}">
+    <tr>
+        <th width="30">ID</th>
+        <th width="120">Name</th>
+        <th width="120">Department</th>
+        <th width="120">Salary</th>
+        <th width="60">Edit</th>
+        <th width="60">Delete</th>
+    </tr>
+    <tr th:each="user: ${userList}">
+        <td align="center" th:text="${user.getId()}"></td>
+        <td align="center" th:text="${user.getName()}"></td>
+        <td align="center" th:text="${user.getDepartment()}"></td>
+        <td align="center" th:text="${user.getSalary()}"></td>
+        <td align="center"><a href="edit.html" th:href="@{/edit/{id}(id=${user.getId()})}">Edit</a></td>
+        <td align="center"><a href="remove.html" th:href="@{/remove/{id}(id=${user.getId()})}">Remove</a></td>
 
-    <th:if test="${!empty userList}">
-        <table class="tg">
-            <tr>
-                <th width="80">ID</th>
-                <th width="120">Title</th>
-                <th width="120">Author</th>
-                <th width="120">Price</th>
-                <th width="60">Edit</th>
-                <th width="60">Delete</th>
-            </tr>
-            <th:forEach items="${userList}" var="user">
-                <tr>
-                    <td>${user}</td>
-                    <td><a href="/userdata/${user.id}" target="_blank">${book.bookTitle}</a></td>
-                    <td>${book.bookAuthor}</td>
-                    <td>${book.price/100}${book.price%100}</td>
-                    <td><a href="<c:url value='/edit/${user.id}'/>">Edit</a></td>
-                    <td><a href="<c:url value='/remove/${user.id}'/>">Delete</a></td>
-                </tr>
-            </th:forEach>
-        </table>
-    </th:if>
-</div>
+    </tr>
+</table>
+<br>
+<br>
+
+<h3 th:text="${title}">Add user</h3>
+<form th:method="POST" th:action="@{/user/add}" th:object="${user}">
+    <ul class="wrapper">
+        <li class="form-row">
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" id="name"/>
+            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+        </li>
+        <br>
+        <li class="form-row">
+            <label for="department">Department</label>
+            <input type="text" th:field="*{department}" id="department"/>
+            <div style="color:red" th:if="${#fields.hasErrors('department')}" th:errors="*{department}">Department error</div>
+        </li>
+        <br>
+        <li class="form-row">
+            <label for="salary">Salary</label>
+            <input type="text" th:field="*{salary}" id="salary"/>
+            <div style="color:red" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Salary error</div>
+        </li>
+        <br>
+        <input type="submit" value="Create!">
+    </ul>
+
+
+</form>
+
+
+
 </body>
 </html>
