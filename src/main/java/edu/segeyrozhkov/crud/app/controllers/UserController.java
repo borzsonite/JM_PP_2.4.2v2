@@ -1,6 +1,4 @@
 package edu.segeyrozhkov.crud.app.controllers;
-
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import edu.segeyrozhkov.crud.app.model.User;
 import edu.segeyrozhkov.crud.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +31,14 @@ public class UserController {
     }
 
     @PostMapping("/user/add")
-    public String addUser(@ModelAttribute("user") User user) {
+    public String addUser(@ModelAttribute("user") User user, Model model) {
         if(user.getId() == 0) {
             userService.addUser(user);
         } else {
             userService.updateUser(user);
         }
+        model.addAttribute("method", "POST");
+        model.addAttribute("action", "/user/add");
         return "redirect:/users";
     }
 
@@ -53,8 +53,13 @@ public class UserController {
         model.addAttribute("user", userService.getUserById(id));
         model.addAttribute("userList", userService.userList());
         model.addAttribute("title", "Edit user");
-        model.addAttribute("method", "PATCH");
-        return "users";
+        return "/edit";
+    }
+
+    @RequestMapping("/user/{id}")
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+        userService.updateUser(user);
+        return "redirect:/users";
     }
 
     @RequestMapping("/userdata/{id}")

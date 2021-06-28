@@ -40,7 +40,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public User getUserById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        User user = (User) session.load(User.class, new Integer(id));
+        User user = session.get(User.class, id);
         return user;
     }
 
