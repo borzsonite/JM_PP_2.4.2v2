@@ -5,20 +5,27 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
 
-    private SessionFactory sessionFactory;
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+   // private SessionFactory sessionFactory;
+    private EntityManager entityManager;
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
+
+
+
+//    public void setSessionFactory(SessionFactory sessionFactory) {
+//        this.sessionFactory = sessionFactory;
+//    }
 
     @Override
     public void addUser(User user) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = entityManager.createQuery();
         session.persist(user);
     }
 
