@@ -5,7 +5,9 @@ import edu.segeyrozhkov.crud.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -20,7 +22,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void updateUser(User user) {
-
+        repository.save(user);
     }
 
     @Override
@@ -30,7 +32,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User getUserById(int id) {
-        return repository.getById(id);
+        Optional<User> user = repository.findById(id);
+        return user.orElse(null);
     }
 
     @Override
