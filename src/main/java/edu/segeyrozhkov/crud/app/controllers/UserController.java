@@ -1,14 +1,11 @@
 package edu.segeyrozhkov.crud.app.controllers;
+
 import edu.segeyrozhkov.crud.app.model.User;
 import edu.segeyrozhkov.crud.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -26,25 +23,17 @@ public class UserController {
 
     @GetMapping("/users")
     public String getAllUsers(Model model) {
-        try{
-            userService.userList();
-        } catch (Exception e) {
-            model.addAttribute("userList", new ArrayList<User>());
-            model.addAttribute("user", new User());
-            model.addAttribute("title", "Add user");
-            return "users";
-        }
-            model.addAttribute("user", new User());
-            model.addAttribute("title", "Add user");
-            model.addAttribute("userList", userService.userList());
+        model.addAttribute("user", new User());
+        model.addAttribute("title", "Add user");
+        model.addAttribute("userList", userService.userList());
 
-            return "users";
+        return "users";
 
     }
 
     @PostMapping("/user/add")
     public String addUser(@ModelAttribute("user") User user, Model model) {
-        if(user.getId() == 0) {
+        if (user.getId() == 0) {
             userService.addUser(user);
         } else {
             userService.updateUser(user);
