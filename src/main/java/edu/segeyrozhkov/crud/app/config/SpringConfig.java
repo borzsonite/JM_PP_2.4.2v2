@@ -40,7 +40,6 @@ public class SpringConfig implements WebMvcConfigurer {
         this.applicationContext = applicationContext;
     }
 
-
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -79,21 +78,6 @@ public class SpringConfig implements WebMvcConfigurer {
         return dataSource;
     }
 
-//    @Bean
-//    public LocalSessionFactoryBean getSessionFactory() {
-//        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-//        factoryBean.setDataSource(dataSource());
-//
-//        Properties props = new Properties();
-//        props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-//        props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-//
-//        factoryBean.setHibernateProperties(props);
-//        factoryBean.setAnnotatedClasses(User.class);
-//        return factoryBean;
-//    }
-
-
     //EntityManagerFactory Bean Config
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -113,20 +97,11 @@ public class SpringConfig implements WebMvcConfigurer {
 
     final Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
-//        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-//        hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-//        hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", env.getProperty("hibernate.cache.use_second_level_cache"));
-//        hibernateProperties.setProperty("hibernate.cache.use_query_cache", env.getProperty("hibernate.cache.use_query_cache"));
+        hibernateProperties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        hibernateProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        hibernateProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         return hibernateProperties;
     }
-
-    //TransactionManager Bean Config
-//    @Bean
-//    public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
-//        final JpaTransactionManager transactionManager = new JpaTransactionManager();
-//        transactionManager.setEntityManagerFactory(emf);
-//        return transactionManager;
-//    }
 
     @Bean
     public PlatformTransactionManager transactionManager() {
@@ -137,29 +112,4 @@ public class SpringConfig implements WebMvcConfigurer {
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
-
-
-
-
-
-//    @Bean
-//    public HibernateTransactionManager getTransactionManager() {
-//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(getSessionFactory().getObject());
-//        return transactionManager;
-//    }
-
-//    @Bean(name = "userDao")
-//    public UserDao getUserDao() {
-//        UserDaoImp userDao = new UserDaoImp();
-//        userDao.setSessionFactory(getSessionFactory().getObject());
-//        return userDao;
-//    }
-//
-//    @Bean(name = "userService")
-//    public UserService getUserService() {
-//        UserServiceImp userService = new UserServiceImp();
-//        userService.setUserDao(getUserDao());
-//        return userService;
-//    }
 }

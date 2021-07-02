@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class UserController {
     private UserService userService;
@@ -23,10 +26,20 @@ public class UserController {
 
     @GetMapping("/users")
     public String getAllUsers(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("userList", userService.userList());
-        model.addAttribute("title", "Add user");
-        return "users";
+        try{
+            userService.userList();
+        } catch (Exception e) {
+            model.addAttribute("userList", new ArrayList<User>());
+            model.addAttribute("user", new User());
+            model.addAttribute("title", "Add user");
+            return "users";
+        }
+            model.addAttribute("user", new User());
+            model.addAttribute("title", "Add user");
+            model.addAttribute("userList", userService.userList());
+
+            return "users";
+
     }
 
     @PostMapping("/user/add")

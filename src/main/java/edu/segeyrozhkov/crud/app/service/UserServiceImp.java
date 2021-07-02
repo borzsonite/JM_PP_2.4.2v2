@@ -4,8 +4,6 @@ import edu.segeyrozhkov.crud.app.model.User;
 import edu.segeyrozhkov.crud.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
