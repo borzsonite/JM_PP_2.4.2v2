@@ -60,8 +60,9 @@
     </style>
 </head>
 <body>
-
-<table class="tg" th:if="not ${userList.isEmpty()}">
+<h3>List of users</h3>
+<br>
+<table class="tg">
     <tr>
         <th width="30">ID</th>
         <th width="120">Name</th>
@@ -70,47 +71,38 @@
         <th width="60">Edit</th>
         <th width="60">Delete</th>
     </tr>
-    <tr th:each="user: ${userList}">
+    <tr th:if="not ${userList.isEmpty()}" th:each="user: ${userList}">
         <td align="center" th:text="${user.getId()}"></td>
         <td align="center" th:text="${user.getName()}"></td>
         <td align="center" th:text="${user.getDepartment()}"></td>
         <td align="center" th:text="${user.getSalary()}"></td>
-        <td align="center"><a href="edit.html" th:href="@{/edit/{id}(id=${user.getId()})}">Edit</a></td>
-        <td align="center"><a href="remove.html" th:href="@{/remove/{id}(id=${user.getId()})}">Remove</a></td>
-
+        <td align="center"><a href="edit_user.html" th:href="@{/edit/{id}(id=${user.getId()})}">Edit</a></td>
+        <td align="center"><a href="remove_user.html" th:href="@{/remove/{id}(id=${user.getId()})}">Remove</a></td>
     </tr>
 </table>
 <br>
 <br>
 
 <h3 th:text="${title}">Add user</h3>
-<form th:method="POST" th:action="@{/user/add}" th:object="${user}">
+<form th:method="POST" th:action="@{/user/{id}(id=${user.getId()})}" th:object="${user}">
     <ul class="wrapper">
         <li class="form-row">
             <label for="name">Name</label>
             <input type="text" th:field="*{name}" id="name"/>
-            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
         </li>
         <br>
         <li class="form-row">
             <label for="department">Department</label>
             <input type="text" th:field="*{department}" id="department"/>
-            <div style="color:red" th:if="${#fields.hasErrors('department')}" th:errors="*{department}">Department error</div>
         </li>
         <br>
         <li class="form-row">
             <label for="salary">Salary</label>
             <input type="text" th:field="*{salary}" id="salary"/>
-            <div style="color:red" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Salary error</div>
         </li>
         <br>
-        <input type="submit" value="Create!">
+        <input type="submit" value="Submit">
     </ul>
-
-
 </form>
-
-
-
 </body>
 </html>

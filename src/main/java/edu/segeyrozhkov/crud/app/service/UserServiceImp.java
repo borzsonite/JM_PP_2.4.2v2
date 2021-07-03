@@ -14,11 +14,6 @@ public class UserServiceImp implements UserService {
     private UserRepository repository;
 
     @Override
-    public void addUser(User user) {
-        repository.save(user);
-    }
-
-    @Override
     public void updateUser(User user) {
         repository.save(user);
     }
