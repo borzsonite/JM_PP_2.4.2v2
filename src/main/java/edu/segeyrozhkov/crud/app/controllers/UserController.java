@@ -16,9 +16,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("/hello")
     public String getHello() {
         return "hello";
+    }
+
+    @GetMapping("login")
+    public String loginPage() {
+        return "login";
     }
 
     @GetMapping("/users")
